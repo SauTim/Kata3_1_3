@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,12 +25,21 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    public User() {
+    }
+
+    public User(String username, String password, int salary, Collection<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.salary = salary;
+        this.roles = roles;
+    }
+
     public String rolesToString (){
         StringBuilder stringBuilder = new StringBuilder();
         for (Role r:roles) {
-            stringBuilder.append(r.getAuthority());
-            stringBuilder.append("; ");
-            stringBuilder.append("\n");
+            stringBuilder.append(r.getAuthority().replace("ROLE_", ""));
+            stringBuilder.append(" ");
         }
         return stringBuilder.toString();
     }
