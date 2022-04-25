@@ -5,6 +5,9 @@ import com.example.kata_3_1_2ver2.entities.User;
 import com.example.kata_3_1_2ver2.services.RoleService;
 import com.example.kata_3_1_2ver2.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import java.util.Set;
 public class AdminController {
     private UserService userService;
     private RoleService roleService;
+
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -50,7 +54,7 @@ public class AdminController {
                            @RequestParam("roles") String role, @RequestParam("salary") int salary) {
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.findByName(role));
-        userService.saveUser(new User(name, password, salary, roles));
+        userService.saveUser(new User(name, userService.encode(password), salary, roles));
         return "redirect:/admin/";
     }
 
@@ -61,8 +65,11 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
+    public String updateUser(@RequestParam("id") Long id, @RequestParam("username") String name, @RequestParam("password") String password,
+                             @RequestParam("roles") String role, @RequestParam("salary") int salary) {
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleService.findByName(role));
+        userService.updateUser(new User(id, name, password, salary, roles));
         return "redirect:/admin/";
     }
 

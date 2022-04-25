@@ -35,6 +35,14 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public User(Long id, String username, String password, int salary, Collection<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.salary = salary;
+        this.roles = roles;
+    }
+
     public String rolesToString (){
         StringBuilder stringBuilder = new StringBuilder();
         for (Role r:roles) {

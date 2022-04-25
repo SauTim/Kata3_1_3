@@ -17,6 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private UserServiceImpl userServiceImpl;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     public void setUserService(UserServiceImpl userServiceImpl) {
@@ -46,61 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(userServiceImpl);
         return authenticationProvider;
     }
 
-
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
-
-//    @Bean
-//    public JdbcUserDetailsManager detailsManager(DataSource dataSource) {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN")
-//                        .build();
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        if (jdbcUserDetailsManager.userExists(user.getUsername())) {
-//            jdbcUserDetailsManager.deleteUser(user.getUsername());
-//        }
-//        if (jdbcUserDetailsManager.userExists(admin.getUsername())) {
-//            jdbcUserDetailsManager.deleteUser(admin.getUsername());
-//        }
-//        jdbcUserDetailsManager.createUser(user);
-//        jdbcUserDetailsManager.createUser(admin);
-//        return jdbcUserDetailsManager;
-//    }
 }

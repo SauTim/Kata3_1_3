@@ -68,14 +68,14 @@
                                             <td th:text="${user.rolesToString()}"></td>
                                             <td th:text="${user.salary}"></td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</button>
-                                                <div class="modal fade" id="editModal" tabindex="-1"
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" th:attrappend="data-target=${user.id}">Edit</button>
+                                                <div class="modal fade" id="editModal" th:attrappend="id=${user.id}" tabindex="-1"
                                                      aria-labelledby="editModalLabel" aria-hidden="true">
                                                     <form th:method="POST" th:action="@{/admin/update/}" th:charset="UTF-8">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="editModalLabel">Delete user</h5>
+                                                                    <h5 class="modal-title" id="editModalLabel">Edit user</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -85,26 +85,26 @@
                                                                         <div class="col-8">
                                                                             <div class="form-group">
                                                                                 <label for="id2"><b>Id:</b></label>
-                                                                                <input type="text" class="form-control" id="id2" value="30 ">
+                                                                                <input type="text" class="form-control" id="id2" name="id" th:value="${user.id}" readonly>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="username2"><b>Username:</b></label>
-                                                                                <input type="text" class="form-control" id="username2" value="admin">
+                                                                                <input type="text" class="form-control" id="username2" name="username" th:value="${user.username}">
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="password2"><b>Password:</b></label>
-                                                                                <input type="text" class="form-control" id="password2" value="admin">
+                                                                                <input type="text" class="form-control" id="password2" name="password" th:value="${user.password}">
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="roles2"><b>Roles:</b></label>
-                                                                                <select multiple class="form-control" id="roles2">
+                                                                                <select multiple class="form-control" id="roles2" name="roles">
                                                                                     <option name="ROLE_USER" value="ROLE_USER">User</option>
-                                                                                    <option name="ROLE_ADMIN" value="ROLE_ADMIN" selected>Admin</option>
+                                                                                    <option name="ROLE_ADMIN" value="ROLE_ADMIN" selected="selected">Admin</option>
                                                                                 </select>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="salary2"><b>Salary:</b></label>
-                                                                                <input type="text" class="form-control" id="salary2" value="200">
+                                                                                <input type="text" class="form-control" id="salary2" name="salary" th:value="${user.salary}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -119,10 +119,10 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" th:attrappend="data-target=${user.id}">Delete</button>
                                                 <div class="modal fade" id="deleteModal" tabindex="-1"
-                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <form th:method="POST" th:action="@{/admin/delete/{id}(id=30)}" th:charset="UTF-8">
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true" th:attrappend="id=${user.id}">
+                                                    <form th:method="POST" th:action="@{/admin/delete/{id}(id=${user.id})}" th:charset="UTF-8">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -136,22 +136,22 @@
                                                                         <div class="col-8">
                                                                             <div class="form-group">
                                                                                 <label for="id1"><b>Id:</b></label>
-                                                                                <input type="text" class="form-control" id="id1" value="10" readonly>
+                                                                                <input type="text" class="form-control" id="id1" th:value="${user.id}" readonly>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="username1"><b>Username:</b></label>
-                                                                                <input type="text" class="form-control" id="username1" value="user" readonly>
+                                                                                <input type="text" class="form-control" id="username1" th:value="${user.username}" readonly>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="roles1"><b>Roles:</b></label>
-                                                                                <select multiple class="form-control" id="roles1" readonly="">
+                                                                                <select multiple class="form-control" id="roles1" readonly>
                                                                                     <option name="ROLE_USER" value="ROLE_USER">User</option>
-                                                                                    <option name="ROLE_ADMIN" value="ROLE_ADMIN">Admin</option>
+                                                                                    <option name="ROLE_ADMIN" value="ROLE_ADMIN" selected="selected">Admin</option>
                                                                                 </select>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="salary1"><b>Salary:</b></label>
-                                                                                <input type="text" class="form-control" id="salary1" value="200" readonly>
+                                                                                <input type="text" class="form-control" id="salary1" th:value="${user.salary}" readonly>
                                                                             </div>
                                                                         </div>
                                                                     </div>
